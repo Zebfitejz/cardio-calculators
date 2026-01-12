@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chest Pain Story Score</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 16px; line-height: 1.35; }
+      h1 { font-size: 20px; margin: 0 0 8px; }
+      h2 { font-size: 16px; margin: 18px 0 8px; }
+      .card { border: 1px solid #ddd; border-radius: 12px; padding: 12px; margin: 10px 0; }
+      .q { margin: 10px 0; }
+      .q-title { font-weight: 600; margin-bottom: 6px; }
+      label { display: block; padding: 6px 8px; border-radius: 10px; }
+      label:hover { background: #f5f5f5; }
+      .result { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+      .score { font-size: 28px; font-weight: 800; }
+      .interp { font-size: 14px; }
+      .muted { color: #555; font-size: 13px; }
+      .btnrow { display: flex; gap: 10px; margin-top: 10px; }
+      button { border: 1px solid #ddd; background: white; border-radius: 10px; padding: 8px 10px; }
+      button:active { transform: scale(0.99); }
+      .pill { display: inline-block; padding: 3px 8px; border: 1px solid #ddd; border-radius: 999px; font-size: 12px; }
+      hr { border: none; border-top: 1px solid #eee; margin: 12px 0; }
+      .footer { margin-top: 14px; font-size: 12px; color: #666; }
+    </style>
+  </head>
+
+  <body>
+    <h1>Chest Pain Story – Scored Checklist</h1>
+    <div class="muted">Story-only Ischemia & OMI Probability Tool (for personal education)</div>
+
+    <div class="card" id="axis1">
+      <h2>AXIS 1 — Ischemia (ACS) Story Score</h2>
+
+      <div class="q">
+        <div class="q-title">A. Pain Quality (0–2)</div>
+        <label><input type="radio" name="acs_quality" value="0"> 0 – Sharp, stabbing, pleuritic, pinpoint, positional</label>
+        <label><input type="radio" name="acs_quality" value="1"> 1 – Burning or vague discomfort</label>
+        <label><input type="radio" name="acs_quality" value="2"> 2 – Pressure, squeezing, heaviness, tightness</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">B. Location / Radiation (0–2)</div>
+        <label><input type="radio" name="acs_radiation" value="0"> 0 – Localized, reproducible</label>
+        <label><input type="radio" name="acs_radiation" value="1"> 1 – Retrosternal or left chest only</label>
+        <label><input type="radio" name="acs_radiation" value="2"> 2 – Radiation to arm(s), jaw, neck, or back</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">C. Provocation / Relief (0–2)</div>
+        <label><input type="radio" name="acs_provrel" value="0"> 0 – Random, positional, breathing-related</label>
+        <label><input type="radio" name="acs_provrel" value="1"> 1 – Occurs at rest without exertional link</label>
+        <label><input type="radio" name="acs_provrel" value="2"> 2 – Triggered by exertion/emotion/cold OR relieved by rest/nitro</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">D. Associated Symptoms (0–2)</div>
+        <label><input type="radio" name="acs_assoc" value="0"> 0 – None</label>
+        <label><input type="radio" name="acs_assoc" value="1"> 1 – One of: dyspnea, nausea, palpitations</label>
+        <label><input type="radio" name="acs_assoc" value="2"> 2 – Diaphoresis OR multiple autonomic symptoms</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">E. Temporal Pattern (0–2)</div>
+        <label><input type="radio" name="acs_temporal" value="0"> 0 – Seconds or fleeting</label>
+        <label><input type="radio" name="acs_temporal" value="1"> 1 – Minutes, intermittent</label>
+        <label><input type="radio" name="acs_temporal" value="2"> 2 – ≥10–30 min episodes or crescendo pattern</label>
+      </div>
+
+      <hr />
+
+      <div class="result">
+        <div><span class="pill">ACS score</span> <span class="score" id="acsScore">—</span><span class="muted">/10</span></div>
+        <div class="interp" id="acsInterp">Select options to calculate.</div>
+      </div>
+      <div class="muted" id="acsRule"></div>
+      <hr />
+<div class="muted">
+  <div class="q-title">Interpretation (reference ranges)</div>
+  <div>0–2 → Low ischemic likelihood</div>
+  <div>3–5 → Possible ischemia</div>
+  <div>6–10 → Probable ACS (start medical management)</div>
+  <div>≥6 = treat as ischemia until proven otherwise</div>
+</div>
+
+    </div>
+
+    <div class="card" id="axis2">
+      <h2>AXIS 2 — Occlusion (OMI) Story Score</h2>
+
+      <div class="q">
+        <div class="q-title">A. Onset & Severity (0–3)</div>
+        <label><input type="radio" name="omi_onset" value="0"> 0 – Gradual onset, mild/moderate</label>
+        <label><input type="radio" name="omi_onset" value="1"> 1 – Moderate but progressive</label>
+        <label><input type="radio" name="omi_onset" value="2"> 2 – Sudden severe pain</label>
+        <label><input type="radio" name="omi_onset" value="3"> 3 – Maximal at onset (“worst ever”)</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">B. Persistence (0–3)</div>
+        <label><input type="radio" name="omi_persist" value="0"> 0 – Resolves spontaneously</label>
+        <label><input type="radio" name="omi_persist" value="1"> 1 – Intermittent</label>
+        <label><input type="radio" name="omi_persist" value="2"> 2 – Continuous &gt;20 min</label>
+        <label><input type="radio" name="omi_persist" value="3"> 3 – Persistent despite rest & nitro</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">C. Autonomic Storm (0–2)</div>
+        <label><input type="radio" name="omi_auto" value="0"> 0 – None</label>
+        <label><input type="radio" name="omi_auto" value="1"> 1 – Mild nausea or dyspnea</label>
+        <label><input type="radio" name="omi_auto" value="2"> 2 – Profuse diaphoresis, vomiting, pallor</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">D. Ischemic Equivalents (0–2)</div>
+        <label><input type="radio" name="omi_equiv" value="0"> 0 – Typical chest pain only</label>
+        <label><input type="radio" name="omi_equiv" value="1"> 1 – Dyspnea or epigastric pain</label>
+        <label><input type="radio" name="omi_equiv" value="2"> 2 – Syncope, pulmonary edema, acute weakness</label>
+      </div>
+
+      <div class="q">
+        <div class="q-title">E. Hemodynamic / Mechanical Clues (0–2)</div>
+        <label><input type="radio" name="omi_hemo" value="0"> 0 – Stable</label>
+        <label><input type="radio" name="omi_hemo" value="1"> 1 – Tachycardia or hypertension</label>
+        <label><input type="radio" name="omi_hemo" value="2"> 2 – Hypotension, bradycardia, shock signs</label>
+      </div>
+
+      <hr />
+
+      <div class="result">
+        <div><span class="pill">OMI score</span> <span class="score" id="omiScore">—</span><span class="muted">/12</span></div>
+        <div class="interp" id="omiInterp">Select options to calculate.</div>
+      </div>
+      <div class="muted" id="omiRule"></div>
+      <hr />
+<div class="muted">
+  <div class="q-title">Interpretation (reference ranges)</div>
+  <div>0–2 → Occlusion unlikely</div>
+  <div>3–5 → Possible OMI</div>
+  <div>6–8 → Probable OMI (high suspicion)</div>
+  <div>≥9 → Presumed OMI (cath-lab mindset now)</div>
+
+</div>
+
+    </div>
+
+      <div class="btnrow">
+        <button id="resetBtn" type="button">Reset</button>
+        <button id="copyBtn" type="button">Copy summary</button>
+      </div>
+
+      <div class="footer">
+        Don't forget to consider Trops, ECG, TTE, and other findings in your final clinical assessment
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
